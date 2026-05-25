@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { questions } from '../data';
 import { CheckCircle, XCircle, Info } from 'lucide-react';
@@ -64,7 +64,8 @@ export default function PracticeSession({
   const question = practiceQuestions[currentIndex];
   const progress = practiceQuestions.length > 0 ? (currentIndex / practiceQuestions.length) * 100 : 0;
 
-  const saveCurrentProgress = useCallback(() => {
+  // Auto-save on every state change
+  useEffect(() => {
     saveProgress({
       section: activeSection,
       currentIndex,
@@ -72,10 +73,9 @@ export default function PracticeSession({
       type: isReview ? 'review' : 'full',
       reviewList,
     });
-  }, [activeSection, currentIndex, wrongAnswers, isReview, reviewList]);
+  }, [activeSection, currentIndex, wrongAnswers, selectedOption, isChecked, isReview, reviewList]);
 
   const handleExit = () => {
-    saveCurrentProgress();
     onExit();
   };
 
@@ -100,18 +100,10 @@ export default function PracticeSession({
 
   const handleNext = () => {
     if (currentIndex < practiceQuestions.length - 1) {
-      const nextIdx = currentIndex + 1;
-      setCurrentIndex(nextIdx);
+      setCurrentIndex(idx => idx + 1);
       setSelectedOption(null);
       setIsChecked(false);
       setShowExplanation(false);
-      saveProgress({
-        section: activeSection,
-        currentIndex: nextIdx,
-        wrongAnswers,
-        type: isReview ? 'review' : 'full',
-        reviewList,
-      });
     } else {
       clearProgress();
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
