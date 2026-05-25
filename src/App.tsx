@@ -1,27 +1,56 @@
 import { useState, useEffect, useCallback } from 'react';
 import PracticeSession, { SessionResult } from './components/PracticeSession';
-import { loadRecords, saveRecord, loadWrongIds, saveWrongIds, PracticeRecord } from './storage';
+import {
+  loadRecords, saveRecord, loadWrongIds, saveWrongIds,
+  loadProgress, clearProgress, PracticeRecord, SavedProgress,
+} from './storage';
 
 export default function App() {
   const [view, setView] = useState<'home' | 'practice' | 'history'>('home');
   const [wrongStorage, setWrongStorage] = useState<string[]>([]);
   const [sessionReviewIds, setSessionReviewIds] = useState<string[]>([]);
   const [records, setRecords] = useState<PracticeRecord[]>([]);
+  const [savedProgress, setSavedProgress] = useState<SavedProgress | null>(null);
+
+  // Resume state
+  const [resumeSection, setResumeSection] = useState<string | null>(null);
+  const [resumeIndex, setResumeIndex] = useState(0);
+  const [resumeWrong, setResumeWrong] = useState<string[]>([]);
 
   useEffect(() => {
     setWrongStorage(loadWrongIds());
     setRecords(loadRecords());
+    setSavedProgress(loadProgress());
   }, []);
 
   const handleStartFullPractice = useCallback(() => {
+    clearProgress();
+    setSavedProgress(null);
     setSessionReviewIds([]);
+    setResumeSection(null);
+    setResumeIndex(0);
+    setResumeWrong([]);
     setView('practice');
   }, []);
 
   const handleStartReview = useCallback(() => {
+    clearProgress();
+    setSavedProgress(null);
     setSessionReviewIds([...wrongStorage]);
+    setResumeSection(null);
+    setResumeIndex(0);
+    setResumeWrong([]);
     setView('practice');
   }, [wrongStorage]);
+
+  const handleResumePractice = useCallback(() => {
+    if (!savedProgress) return;
+    setSessionReviewIds(savedProgress.reviewList);
+    setResumeSection(savedProgress.section);
+    setResumeIndex(savedProgress.currentIndex);
+    setResumeWrong(savedProgress.wrongAnswers);
+    setView('practice');
+  }, [savedProgress]);
 
   const handlePracticeComplete = useCallback((result: SessionResult) => {
     const merged = Array.from(new Set([...wrongStorage, ...result.wrongIds]));
@@ -31,21 +60,28 @@ export default function App() {
     const record: PracticeRecord = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
       date: new Date().toISOString(),
-      type: sessionReviewIds.length > 0 ? 'review' : 'full',
+      type: sessionReviewIds.length > 0 ? 'review' : result.section ? 'section' : 'full',
       totalQuestions: result.total,
       wrongCount: result.wrongIds.length,
       scorePercent: result.total > 0 ? Math.round(((result.total - result.wrongIds.length) / result.total) * 100) : 0,
       wrongIds: result.wrongIds,
       duration: result.duration,
+      section: result.section,
     };
     saveRecord(record);
     setRecords(loadRecords());
+    setSavedProgress(null);
     setView('home');
   }, [wrongStorage, sessionReviewIds]);
 
   const handleViewHistory = useCallback(() => {
     setRecords(loadRecords());
     setView('history');
+  }, []);
+
+  const handleDiscardProgress = useCallback(() => {
+    clearProgress();
+    setSavedProgress(null);
   }, []);
 
   const formatDate = (iso: string) => {
@@ -67,6 +103,9 @@ export default function App() {
           reviewList={sessionReviewIds}
           onComplete={handlePracticeComplete}
           onExit={() => setView('home')}
+          initialSection={resumeSection}
+          initialIndex={resumeIndex}
+          initialWrong={resumeWrong}
         />
       </div>
     );
@@ -99,9 +138,18 @@ export default function App() {
                 {records.map((r) => (
                   <div key={r.id} className="bg-gray-50 rounded-2xl p-4 border border-gray-100">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-500">{formatDate(r.date)}</span>
-                      <span className={`text-xs font-bold px-3 py-1 rounded-full ${r.type === 'review' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}`}>
-                        {r.type === 'review' ? 'Review' : 'Full'}
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-500">{formatDate(r.date)}</span>
+                        {r.section && (
+                          <span className="text-xs text-gray-400 bg-gray-200 px-2 py-0.5 rounded-full truncate max-w-[180px]">{r.section}</span>
+                        )}
+                      </div>
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full shrink-0 ${
+                        r.type === 'review' ? 'bg-orange-100 text-orange-600' :
+                        r.type === 'section' ? 'bg-purple-100 text-purple-600' :
+                        'bg-blue-100 text-blue-600'
+                      }`}>
+                        {r.type === 'review' ? 'Review' : r.type === 'section' ? 'Section' : 'Full'}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
@@ -149,6 +197,33 @@ export default function App() {
         </div>
 
         <div className="p-6 space-y-3">
+          {savedProgress && (
+            <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-green-700">Resume Practice</p>
+                  <p className="text-xs text-green-600 mt-0.5">
+                    {savedProgress.section || 'All'} — Question {savedProgress.currentIndex + 1}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleDiscardProgress}
+                    className="text-xs text-gray-400 hover:text-gray-600 px-2 py-1"
+                  >
+                    Discard
+                  </button>
+                  <button
+                    onClick={handleResumePractice}
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold text-sm px-4 py-2 rounded-xl transition-all"
+                  >
+                    Resume
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <button
             onClick={handleStartFullPractice}
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg py-4 px-6 rounded-2xl transition-all shadow-[0_4px_0_theme(colors.blue.600)] active:shadow-none active:translate-y-1 truncate"

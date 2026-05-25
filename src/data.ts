@@ -3,6 +3,7 @@ export type QuestionType = 'blank' | 'matching' | 'choice';
 export interface Question {
   id: string;
   type: QuestionType;
+  section: string;
   instructions: string;
   passage?: string;
   text: string;
@@ -59,6 +60,7 @@ export const questions: Question[] = [
   {
     id: "26",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "New findings suggest that the kinds of [ 26 ] and strategic self-presentation...",
@@ -69,6 +71,7 @@ export const questions: Question[] = [
   {
     id: "27",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...appear at a much younger age than [ 27 ] known.",
@@ -79,6 +82,7 @@ export const questions: Question[] = [
   {
     id: "28",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "Like grown-ups, kids want to be [ 28 ] by those they admire.",
@@ -89,6 +93,7 @@ export const questions: Question[] = [
   {
     id: "29",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...learn about what [ 29 ] a desirable reputation...",
@@ -99,6 +104,7 @@ export const questions: Question[] = [
   {
     id: "30",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...the kinds of strategies that are effective for [ 30 ] a good reputation...",
@@ -109,6 +115,7 @@ export const questions: Question[] = [
   {
     id: "31",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "They will [ 31 ] their behaviour in order to appear moral...",
@@ -119,6 +126,7 @@ export const questions: Question[] = [
   {
     id: "32",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...we don't yet know whether children [ 32 ] and use the fact...",
@@ -129,6 +137,7 @@ export const questions: Question[] = [
   {
     id: "33",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...valuable at different times to different [ 33 ].",
@@ -139,6 +148,7 @@ export const questions: Question[] = [
   {
     id: "34",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...where in this process children succeed in controlling their reputation and where they [ 34 ].",
@@ -149,6 +159,7 @@ export const questions: Question[] = [
   {
     id: "35",
     type: "blank",
+    section: "Section A — Cloze (26-35)",
     instructions: "Fill in the blanks (26-35) from the list of choices (A-O).",
     passage: sectionABody,
     text: "...have the idea of reputation pop [ 35 ] into existence.",
@@ -161,6 +172,7 @@ export const questions: Question[] = [
   {
     id: "36",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "36. During the course of preparing for Design Ventura, teachers receive training and support while students get tutoring from designers.",
@@ -171,6 +183,7 @@ export const questions: Question[] = [
   {
     id: "37",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "37. A visit to the Design Museum shop in London can reduce the designers' fears about the future supply of talents educated in Britain.",
@@ -181,6 +194,7 @@ export const questions: Question[] = [
   {
     id: "38",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "38. One of Design Ventura's judges says the competition adds vigour to the standard curriculum in schools.",
@@ -191,6 +205,7 @@ export const questions: Question[] = [
   {
     id: "39",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "39. Enrollment in Design and Technology decreased by nearly ten percent last year in the UK.",
@@ -201,6 +216,7 @@ export const questions: Question[] = [
   {
     id: "40",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "40. Participation of ninth graders in Design Ventura can motivate them to choose design technology as their subject.",
@@ -211,6 +227,7 @@ export const questions: Question[] = [
   {
     id: "41",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "41. Design Ventura is welcomed by teachers because it helps to prove the worth of design as a school subject.",
@@ -221,6 +238,7 @@ export const questions: Question[] = [
   {
     id: "42",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "42. The schools don't have to pay anything to take part in the Design Ventura competition.",
@@ -231,6 +249,7 @@ export const questions: Question[] = [
   {
     id: "43",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "43. Participants in Design Ventura are challenged to create sustainable and marketable products.",
@@ -241,6 +260,7 @@ export const questions: Question[] = [
   {
     id: "44",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "44. Students benefit from Design Ventura because they can learn about budgeting and marketing in addition to game design.",
@@ -251,6 +271,7 @@ export const questions: Question[] = [
   {
     id: "45",
     type: "matching",
+    section: "Section B — Matching (36-45)",
     instructions: "Match the statement to the correct paragraph (A-M).",
     passage: sectionBBody,
     text: "45. According to an officer of the Creative Industries Federation, there is difficulty now in recruiting engineers in the UK.",
@@ -263,6 +284,7 @@ export const questions: Question[] = [
   {
     id: "46",
     type: "choice",
+    section: "Section C — Passage One (46-50)",
     instructions: "Choose the correct answer according to Passage One.",
     passage: sectionC1Body,
     text: "46. What do we learn from new research about pandas?",
@@ -278,6 +300,7 @@ export const questions: Question[] = [
   {
     id: "47",
     type: "choice",
+    section: "Section C — Passage One (46-50)",
     instructions: "Choose the correct answer according to Passage One.",
     passage: sectionC1Body,
     text: "47. What can we conclude from the new research by scientists at Michigan State University?",
@@ -293,6 +316,7 @@ export const questions: Question[] = [
   {
     id: "48",
     type: "choice",
+    section: "Section C — Passage One (46-50)",
     instructions: "Choose the correct answer according to Passage One.",
     passage: sectionC1Body,
     text: "48. What is the experts' conclusion regarding pandas?",
@@ -308,6 +332,7 @@ export const questions: Question[] = [
   {
     id: "49",
     type: "choice",
+    section: "Section C — Passage One (46-50)",
     instructions: "Choose the correct answer according to Passage One.",
     passage: sectionC1Body,
     text: "49. What can we infer from the passage about the Goldilocks principle?",
@@ -323,6 +348,7 @@ export const questions: Question[] = [
   {
     id: "50",
     type: "choice",
+    section: "Section C — Passage One (46-50)",
     instructions: "Choose the correct answer according to Passage One.",
     passage: sectionC1Body,
     text: "50. What can the new findings do according to Professor Sillero?",
@@ -340,6 +366,7 @@ export const questions: Question[] = [
   {
     id: "51",
     type: "choice",
+    section: "Section C — Passage Two (51-55)",
     instructions: "Choose the correct answer according to Passage Two.",
     passage: sectionC2Body,
     text: "51. What does the passage say about people born with natural talents?",
@@ -355,6 +382,7 @@ export const questions: Question[] = [
   {
     id: "52",
     type: "choice",
+    section: "Section C — Passage Two (51-55)",
     instructions: "Choose the correct answer according to Passage Two.",
     passage: sectionC2Body,
     text: "52. What does Duckworth say about talent?",
@@ -370,6 +398,7 @@ export const questions: Question[] = [
   {
     id: "53",
     type: "choice",
+    section: "Section C — Passage Two (51-55)",
     instructions: "Choose the correct answer according to Passage Two.",
     passage: sectionC2Body,
     text: "53. What does the passage say about people thinking of attaining success?",
@@ -385,6 +414,7 @@ export const questions: Question[] = [
   {
     id: "54",
     type: "choice",
+    section: "Section C — Passage Two (51-55)",
     instructions: "Choose the correct answer according to Passage Two.",
     passage: sectionC2Body,
     text: "54. How does the author think grit can be helpful to us?",
@@ -400,6 +430,7 @@ export const questions: Question[] = [
   {
     id: "55",
     type: "choice",
+    section: "Section C — Passage Two (51-55)",
     instructions: "Choose the correct answer according to Passage Two.",
     passage: sectionC2Body,
     text: "55. What message does Duckworth try to convey in her book Grit?",
